@@ -11,6 +11,12 @@ export class EventsService {
     private readonly eventsRepository: Repository<Events>,
   ) {}
 
+  public async getAll(): Promise<Events[]> {
+    const events = await this.eventsRepository.find();
+
+    return events;
+  }
+
   public async create(createEventsDto: CreateEventsDto): Promise<Events> {
     const event = this.eventsRepository.create(createEventsDto);
 
