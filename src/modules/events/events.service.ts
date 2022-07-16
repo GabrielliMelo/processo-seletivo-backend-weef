@@ -57,4 +57,14 @@ export class EventsService {
 
     return updatedEvent;
   }
+
+  public async delete(id: string): Promise<void> {
+    const eventExists = await this.getOne(id);
+
+    if (!eventExists) {
+      throw new NotFoundException('Event not found');
+    }
+
+    await this.eventsRepository.delete(id);
+  }
 }

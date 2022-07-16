@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreateEventsDto } from './dtos/CreateEvents.dto';
 import { UpdateEventsDto } from './dtos/UpdateEvents.dto';
 import { Events } from './entities/events.entity';
@@ -29,5 +37,10 @@ export class EventsController {
     @Body() updateEventsDto: UpdateEventsDto,
   ): Promise<Events> {
     return this.eventsService.update(id, updateEventsDto);
+  }
+
+  @Delete(':id')
+  public async delete(@Param('id') id: string): Promise<void> {
+    return this.eventsService.delete(id);
   }
 }
