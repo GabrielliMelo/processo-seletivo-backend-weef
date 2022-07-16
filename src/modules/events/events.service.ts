@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateEventsDto } from './dtos/CreateEvents.dto';
+import { UpdateEventsDto } from './dtos/UpdateEvents.dto';
 import { Events } from './entities/events.entity';
 
 @Injectable()
@@ -29,5 +30,31 @@ export class EventsService {
     await this.eventsRepository.save(event);
 
     return event;
+  }
+
+  public async update(
+    id: string,
+    updateEventsDto: UpdateEventsDto,
+  ): Promise<Events> {
+    const eventExists = await this.getOne(id);
+
+    if (!eventExists) {
+      throw new NotFoundException('Event not found');
+    }
+
+    eventExists.name = updateEventsDto.name;
+    eventExists.date = updateEventsDto.date;
+    eventExists.accountable = updateEventsDto.accountable;
+    eventExists.city = updateEventsDto.city;
+    eventExists.state = updateEventsDto.state;
+    eventExists.address = updateEventsDto.address;
+    eventExists.addressComplement = updateEventsDto.addressComplement;
+    eventExists.email = updateEventsDto.email;
+    eventExists.phone = updateEventsDto.phone;
+    eventExists.images = updateEventsDto.images;
+
+    const updatedEvent = await this.eventsRepository.save(eventExists);
+
+    return updatedEvent;
   }
 }

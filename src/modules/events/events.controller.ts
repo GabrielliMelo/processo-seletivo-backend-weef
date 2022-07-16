@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateEventsDto } from './dtos/CreateEvents.dto';
+import { UpdateEventsDto } from './dtos/UpdateEvents.dto';
 import { Events } from './entities/events.entity';
 import { EventsService } from './events.service';
 
@@ -20,5 +21,13 @@ export class EventsController {
   @Post()
   public async create(@Body() createEventsDto: CreateEventsDto) {
     return this.eventsService.create(createEventsDto);
+  }
+
+  @Put(':id')
+  public async update(
+    @Param('id') id: string,
+    @Body() updateEventsDto: UpdateEventsDto,
+  ): Promise<Events> {
+    return this.eventsService.update(id, updateEventsDto);
   }
 }
