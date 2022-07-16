@@ -2,7 +2,6 @@
 
 Criar uma listagem de eventos com Node.js e framework Nest https://nestjs.com/
 
-
 **Tarefas:**
 
 - Criar um projeto utilizando o Nestjs e banco de dados PostgreSQL;
@@ -33,11 +32,9 @@ Dados do evento:
 
 - Imagens
 
-
 **Dicas:**
 
-Utilize a documentação oficial do NestJS. 
-
+Utilize a documentação oficial do NestJS.
 
 **Diferenciais:**
 
@@ -50,4 +47,3 @@ Criar a branch e realizar o pullrequest utilizando o padrão do GitFlow https://
 **Entrega do teste:**
 
 A entrega do código deve ser feita em um pull request neste repositório.
-
