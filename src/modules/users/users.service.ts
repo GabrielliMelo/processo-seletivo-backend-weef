@@ -1,7 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/CreateUser.dto';
+import { UpdateUserDto } from './dtos/UpdateUser.dto';
 import { User } from './entities/users.entity';
 
 @Injectable()
@@ -27,5 +32,23 @@ export class UsersService {
     delete createdUser.password;
 
     return createdUser;
+  }
+
+  public async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const userExists = await this.usersRepository.findOneBy({
+      id,
+    });
+
+    if (!userExists) {
+      throw new NotFoundException('User not found');
+    }
+
+    this.usersRepository.merge(userExists, updateUserDto);
+
+    const updatedUser = await this.usersRepository.save(userExists);
+
+    delete updatedUser.password;
+
+    return updatedUser;
   }
 }
