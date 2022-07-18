@@ -42,16 +42,7 @@ export class EventsService {
       throw new NotFoundException('Event not found');
     }
 
-    eventExists.name = updateEventsDto.name;
-    eventExists.date = updateEventsDto.date;
-    eventExists.accountable = updateEventsDto.accountable;
-    eventExists.city = updateEventsDto.city;
-    eventExists.state = updateEventsDto.state;
-    eventExists.address = updateEventsDto.address;
-    eventExists.addressComplement = updateEventsDto.addressComplement;
-    eventExists.email = updateEventsDto.email;
-    eventExists.phone = updateEventsDto.phone;
-    eventExists.images = updateEventsDto.images;
+    this.eventsRepository.merge(eventExists, updateEventsDto);
 
     const updatedEvent = await this.eventsRepository.save(eventExists);
 
