@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UpdateUserDto } from './dtos/UpdateUser.dto';
 import { User } from './entities/users.entity';
@@ -15,6 +15,16 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+
+  public async findOne(where: FindOptionsWhere<User>): Promise<User> {
+    const user = await this.usersRepository.findOneBy(where);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
 
   public async create(createUserDto: CreateUserDto): Promise<User> {
     const userExists = await this.usersRepository.findOneBy({
